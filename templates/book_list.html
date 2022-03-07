@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Search form -->
+
+
+
+
+
+<!-- Table of books in DB -->
+<table border="1" align="center" cellpadding="12px">
+    <tr>
+        <th>Book Title</th>
+        <th>Author</th>
+        <th>Publication Date</th>
+        <th>ISBN Number</th>
+        <th>Page Count</th>
+        <th>Cover URL</th>
+        <th>Publication language</th>
+    </tr>
+
+
+<!-- 'For' loop adding a table row in each step, with details about every object in DB -->
+{% for book in all_books %}
+
+    <tr>
+        <td>{{ book.book_title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publ_date }}</td>
+        <td>{{ book.ISBN_number }}</td>
+        <td>{{ book.page_count }}</td>
+        <td><a href="{{ book.cover_URL }}">COVER URL</a></td>
+        <td>{{ book.publ_language }}</td>
+    </tr>
+
+{% endfor %}
+
+</table>
+{% endblock content %}
