@@ -1,26 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Search form -->
+<!-- Formularz wyszukiwania -->
+<form method="POST" action="{% url 'book-search' %}">
+    {% csrf_token %}
+
+<!-- Opcje wyboru rodzaju filtrowania -->
+    <label for="search_by">Search book by:</label>
+    <select id="search_by" name="search_by">
+        <option value="book_title">Tytul ksiazki</option>
+        <option value="auagethor">Autor</option>
+        <option value="publ_language">Jezyk publikacji</option>
+        <option value="publ_date">Data publikacji</option>
+    </select>
+
+<!-- Wprowadzenie frazy do wyszukania -->
+    <input type="search" placeholder="Search for book" name="searched">
+    <button type="submit">Szukaj</button>
+
+</form>
+<!-- Koniec formularza wyszukiwania -->
 
 
+<hr/>
 
 
-
-<!-- Table of books in DB -->
+<!-- Tabela ksiazek pobierana z bazy danych -->
 <table border="1" align="center" cellpadding="12px">
+
+<!-- Pobranie nazw kolumn z bazy danych jako naglowkow tabeli -->
     <tr>
-        <th>Book Title</th>
-        <th>Author</th>
-        <th>Publication Date</th>
-        <th>ISBN Number</th>
-        <th>Page Count</th>
-        <th>Cover URL</th>
-        <th>Publication language</th>
+    {% for field in model_fields %}
+        {% if field.name != "id" %}
+        <th>
+        {{ field.name }}
+        </th>
+        {% endif %}
+    {% endfor %}
     </tr>
 
 
-<!-- 'For' loop adding a table row in each step, with details about every object in DB -->
+<!-- 'Petla for dodajaca w kazdym kroku wiersz tabeli z pojedynczym rekordem bedacym kolejna linia z bazy danych -->
 {% for book in all_books %}
 
     <tr>
@@ -36,4 +56,5 @@
 {% endfor %}
 
 </table>
+<!-- Koniec tabeli ksiazek pobieranej z bazy danych -->
 {% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center>
+
+{% if searched %}
+    <h1>Wyniki wyszukiwania dla "{{ searched }}" (filtr: {{ search_by }})</h1>
+    <br/>
+
+    {% for book in searched_books %}
+
+        {{ book.book_title }}
+        <br/>
+    {% endfor %}
+
+
+{% else %}
+    <h1>Nie wpisano slowa kluczowego!</h1>
+{% endif %}
+
+
+{% endblock content %}
