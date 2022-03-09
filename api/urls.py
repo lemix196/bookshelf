@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from books.views import book_api_view
+from api.views import BookApiView
 
 urlpatterns = [
-    path('', book_api_view, name='api-book')
+    path('', BookApiView.as_view(), name='api-book')
 ]

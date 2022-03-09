@@ -50,7 +50,7 @@ def book_search_view(request):
 # View for adding book
 def book_add_view(request):
     form = AddBookForm(request.POST or None)
-    if form.is_valid():
+    if form.is_valid() and form:
         form.save()
         form = AddBookForm()
 
