@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Books
+from .forms import AddBookForm
 
 
 # View for home site
@@ -44,5 +45,19 @@ def book_search_view(request):
         }
 
         return render(request, 'book_search.html', context)
+
+
+# View for adding book
+def book_add_view(request):
+    form = AddBookForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = AddBookForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'book_add.html', context)
 
 

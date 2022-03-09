@@ -41,6 +41,10 @@ INSTALLED_APPS = [
 
     #MyApps
     'books',
+    'api',
+
+    #ThirdParty
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
