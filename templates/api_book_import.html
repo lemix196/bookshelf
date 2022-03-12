@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="GET" action="{% url 'api-import' %}">
+    {% csrf_token %}
+
+<!-- Opcje wyboru rodzaju filtrowania -->
+<!--     <p>Choose keyword to import by:</p>
+    <div>
+      <input type="radio" id="intitle" name="keyword" value="intitle">
+      <label for="intitle">Book title</label>
+    </div>
+    <div>
+      <input type="radio" id="inauthor" name="keyword" value="inauthor">
+      <label for="inauthor">Author name</label>
+    </div>
+    <div>
+      <input type="radio" id="isbn" name="keyword" value="isbn">
+      <label for="isbn">ISBN (13-digit)</label>
+    </div> -->
+
+        <!--Wprowadzenie frazy do wyszukania -->
+        <br/>
+        <input type="search" placeholder="Enter searching keyword..." name="q">
+        <br/>
+        <input type="search" placeholder="Title" name="intitle">
+        <br/>
+        <input type="search" placeholder="Author" name="inauthor">
+        <br/>
+        <input type="search" placeholder="Publisher" name="inpublisher">
+        <br/>
+        <input type="search" placeholder="Subject" name="subject">
+        <br/>
+        <input type="search" placeholder="ISBN_13" name="isbn">
+        <br/>
+        <input type="search" placeholder="LCNN number" name="lcnn">
+        <br/>
+        <input type="search" placeholder="OCLC number" name="oclc">
+        <br/>
+        <button type="submit">Import from API</button>
+
+</form>
+
+{% for book in all_books %}
+
+<br/>
+{{ book.id }}
+{{ book.title }}
+{{ book.author }}
+<br/>
+
+{% endfor %}
+
+{% endblock content %}

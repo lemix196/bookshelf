@@ -64,7 +64,7 @@ class AddBookForm(forms.ModelForm):
         publ_date = self.cleaned_data.get("publ_date")
 
         # Date format verification
-        date_pattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+        date_pattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
         if not re.match(date_pattern, publ_date):
             raise forms.ValidationError(
                 'Date should be of "YYYY-MM-DD" format',
