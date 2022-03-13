@@ -3,7 +3,7 @@
 {% block content %}
 <center>
 
-{% if searched %}
+{% if searched or search_by == "publ_date" %}
     <h1>Wyniki wyszukiwania dla "{{ searched }}" (filtr: {{ search_by }})</h1>
     <br/>
 

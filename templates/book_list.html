@@ -1,34 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Formularz wyszukiwania -->
-<form method="POST" action="{% url 'book-search' %}">
+<!-- Searching form -->
+<form   method="POST"
+        action="{% url 'book-search' %}"
+        id="searchform">
+
     {% csrf_token %}
 
-<!-- Opcje wyboru rodzaju filtrowania -->
+<!-- Filtering options -->
     <label for="search_by">Search book by:</label>
     <select id="search_by" name="search_by">
-        <option value="book_title">Tytul ksiazki</option>
-        <option value="auagethor">Autor</option>
-        <option value="publ_language">Jezyk publikacji</option>
-        <option value="publ_date">Data publikacji</option>
+        <option value="book_title" >Book title</option>
+        <option value="author" >Author</option>
+        <option value="publ_language" >Published language</option>
+        <option value="publ_date" >Published date</option>
     </select>
 
-<!-- Wprowadzenie frazy do wyszukania -->
+<!-- Searching phrases inputs -->
+    <div>
+        <label for="date_from">From:</label>
+        <input type="date" id="date_from" name="date_from">
+        <label for="date_from">To:</label>
+        <input type="date" id="date_to" name="date_to">
+    </div>
+
     <input type="search" placeholder="Search for book" name="searched">
-    <button type="submit">Szukaj</button>
+    <button type="submit">Search...</button>
 
 </form>
-<!-- Koniec formularza wyszukiwania -->
+<!-- End of searching form -->
 
 
 <hr/>
 
 
-<!-- Tabela ksiazek pobierana z bazy danych -->
+<!-- Books table from DB -->
 <table border="1" align="center" cellpadding="12px">
 
-<!-- Pobranie nazw kolumn z bazy danych jako naglowkow tabeli -->
+<!-- Getting DB column names to table headers-->
     <tr>
     {% for field in model_fields %}
         {% if field.name != "id" %}
@@ -40,7 +50,7 @@
     </tr>
 
 
-<!-- 'Petla for dodajaca w kazdym kroku wiersz tabeli z pojedynczym rekordem bedacym kolejna linia z bazy danych -->
+<!-- For loop adding every DB book in each table row -->
 {% for book in all_books %}
 
     <tr>
@@ -56,5 +66,5 @@
 {% endfor %}
 
 </table>
-<!-- Koniec tabeli ksiazek pobieranej z bazy danych -->
+<!-- End of Books table from DB -->
 {% endblock content %}

@@ -25,9 +25,19 @@ def book_list_view(request):
 def book_search_view(request):
     if request.method == 'POST':
         searched = request.POST['searched']
-        search_by = request.POST['search_by'] + "__contains"
 
-        searched_books = Books.objects.filter(**{ search_by: searched })
+        if request.POST['search_by'] != 'publ_date':
+            search_by = request.POST['search_by'] + "__contains"
+            searched_books = Books.objects.filter(**{ search_by: searched })
+
+        else:
+            search_by = request.POST['search_by']
+            date_from = request.POST['date_from']
+            date_to = request.POST['date_to']
+
+            print(date_from, date_to)
+
+            searched_books = Books.objects.filter(publ_date__range=[date_from, date_to])
 
         context = {
             'searched': searched,
