@@ -1,34 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Searching form -->
-<form   method="POST"
-        action="{% url 'book-search' %}"
-        id="searchform">
 
-    {% csrf_token %}
+<div class="row">
+    <div class="col align-self-end">
+        <!-- Searching by keyword form -->
+            <h1 align="center" style="background-color: ">Book search</h1>
+        <form   method="POST"
+                action="{% url 'book-search' %}"
+                id="searchform">
 
-<!-- Filtering options -->
-    <label for="search_by">Search book by:</label>
-    <select id="search_by" name="search_by">
-        <option value="book_title" >Book title</option>
-        <option value="author" >Author</option>
-        <option value="publ_language" >Published language</option>
-        <option value="publ_date" >Published date</option>
-    </select>
+            {% csrf_token %}
 
-<!-- Searching phrases inputs -->
-    <div>
-        <label for="date_from">From:</label>
-        <input type="date" id="date_from" name="date_from">
-        <label for="date_from">To:</label>
-        <input type="date" id="date_to" name="date_to">
+            <!-- Filtering options -->
+            <p>
+                <label for="search_by">Search book by:</label>
+                <select class="form-select" aria-label="Select searching parameter..." id="search_by" name="search_by">
+                    <option value="book_title">Book title</option>
+                    <option value="author">Author</option>
+                    <option value="publ_language">Published language</option>
+                </select>  
+            </p>
+            <!-- Searching phrases inputs -->
+            <input type="search" class="form-control form-control-lg" placeholder="Type in keywords" name="searched">
+            <button type="submit" class="btn btn-dark btn-block">Search by keyword</button>
+
+
+        </form>
     </div>
+    <div class="col">
+        <!-- Searching by published dates form -->
+        <form   method="POST"
+                action="{% url 'book-search' %}"
+                id="searchform">
 
-    <input type="search" placeholder="Search for book" name="searched">
-    <button type="submit">Search...</button>
+            {% csrf_token %}
 
-</form>
+            <select class="form-select" aria-label="Select searching parameter..." id="search_by" name="search_by" hidden>
+                <option value="publ_date">Published date</option>
+            </select>
+
+            <label for="date_from">From:</label>
+            <input type="date" class="form-control form-control-sm" id="date_from" name="date_from" aria-describedby="date_from_help">
+            <small id="date_from_help" class="form-text text-muted">Must consist of day, month and year.</small>
+
+            <label for="date_from">To:</label>
+            <input type="date" class="form-control form-control-sm" id="date_to" name="date_to" aria-describedby="date_to_help">
+            <small id="date_to_help" class="form-text text-muted">Must consist of day, month and year.</small>
+
+
+            <button type="submit" class="btn btn-dark btn-block">Search by published dates</button>
+        </form>
+    </div>
+</div>
 <!-- End of searching form -->
 
 
@@ -36,23 +60,24 @@
 
 
 <!-- Books table from DB -->
-<table border="1" align="center" cellpadding="12px">
+<table class="table table-hover">
+    <thead class="thead-dark">
 
-<!-- Getting DB column names to table headers-->
-    <tr>
-    {% for field in model_fields %}
-        {% if field.name != "id" %}
-        <th>
-        {{ field.name }}
-        </th>
-        {% endif %}
-    {% endfor %}
-    </tr>
-
+        <!-- Getting DB column names to table headers-->
+        <tr>
+        {% for field in model_fields %}
+            {% if field.name != "id" %}
+            <th scope="col">
+            {{ field.name }}
+            </th>
+            {% endif %}
+        {% endfor %}
+        <th>Options</th>
+        </tr>
+    </thead>
 
 <!-- For loop adding every DB book in each table row -->
 {% for book in all_books %}
-
     <tr>
         <td>{{ book.book_title }}</td>
         <td>{{ book.author }}</td>
@@ -61,6 +86,8 @@
         <td>{{ book.page_count }}</td>
         <td><a href="{{ book.cover_URL }}">COVER URL</a></td>
         <td>{{ book.publ_language }}</td>
+        <td><a href="{% url 'book-edit' book_id=book.id %}" class="warning-link">Edit</a>
+        <a style="color:red" href="{% url 'book-delete' book_id=book.id %}" class="link-danger" >Delete</a></td>
     </tr>
 
 {% endfor %}

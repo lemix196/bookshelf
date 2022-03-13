@@ -2,39 +2,74 @@
 
 {% block content %}
 
-<form method="GET" action="{% url 'api-import' %}">
-    {% csrf_token %}
+<div class="row">
+  <div class="col"></div>
+  <div class="col align-self-center align-items-center">
+    <form method="GET" action="{% url 'api-import' %}">
+      {% csrf_token %}
 
-  <!-- Inputs for Google Books API searchinf phrases -->
-  <br/>
-  <input type="search" placeholder="Enter searching keyword..." name="q">
-  <br/>
-  <input type="search" placeholder="Title" name="intitle">
-  <br/>
-  <input type="search" placeholder="Author" name="inauthor">
-  <br/>
-  <input type="search" placeholder="Publisher" name="inpublisher">
-  <br/>
-  <input type="search" placeholder="Subject" name="subject">
-  <br/>
-  <input type="search" placeholder="ISBN_13" name="isbn">
-  <br/>
-  <input type="search" placeholder="LCNN number" name="lcnn">
-  <br/>
-  <input type="search" placeholder="OCLC number" name="oclc">
-  <br/>
-  <button type="submit">Import from API</button>
+      <!-- Inputs for Google Books API searching phrases -->
+      <h2 align="center">Enter keyword to import books from Google Books API</h2>
+      <br/>
+      <input class="form-control" type="text" placeholder="Enter searching keyword..." name="q" >
+      <br/>
+      <br/>
+      <h4>Search parameters:</h4> 
+      <input class="form-control" type="text" placeholder="Title" name="intitle">
+      <br/>
+      <input class="form-control" type="text" placeholder="Author" name="inauthor">
+      <br/>
+      <input class="form-control" type="text" placeholder="Publisher" name="inpublisher">
+      <br/>
+      <input class="form-control" type="text" placeholder="Subject" name="subject">
+      <br/>
+      <input class="form-control" type="text" placeholder="ISBN_13" name="isbn">
+      <br/>
+      <input class="form-control" type="text" placeholder="LCNN number" name="lcnn">
+      <br/>
+      <input class="form-control" type="text" placeholder="OCLC number" name="oclc">
+      <br/>
+      <button class="btn btn-dark btn-lg btn-block" type="submit">Import from API</button>
 
-</form>
-
-{% for book in all_books %}
+    </form>
+  </div>
+  <div class="col"></div>
+</div>
 
 <br/>
-<p>{{ book.id }}</p>
-<p>"{{ book.book_title }}""</p>
-<p>{{ book.author }}</p>
 <br/>
+<h1>Books imported from API:</h1>
 
-{% endfor %}
+<table class="table table-hover">
+    <thead class="thead-dark">
+
+        <!-- Getting DB column names to table headers-->
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published date</th>
+            <th>ISBN_13</th>
+            <th>Page count</th>
+            <th>Cover URL</th>
+            <th>Publication language</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+
+
+    {% for book in imported_books_list %}
+    <tr>
+        <td>{{ book.book_title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publ_date }}</td>
+        <td>{{ book.ISBN_number }}</td>
+        <td>{{ book.page_count }}</td>
+        <td><a href="{{ book.cover_URL }}">COVER URL</a></td>
+        <td>{{ book.publ_language }}</td>
+        <td><a href="{% url 'book-edit' book_id=book.id %}" class="warning-link">Edit</a>
+        <a style="color:red" href="{% url 'book-delete' book_id=book.id %}" class="link-danger" >Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock content %}

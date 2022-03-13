@@ -3,19 +3,80 @@
 {% block content %}
 <center>
 
-{% if searched or search_by == "publ_date" %}
-    <h1>Wyniki wyszukiwania dla "{{ searched }}" (filtr: {{ search_by }})</h1>
+{% if searched %}
+    <h1>Results for: "{{ searched }}"</h1>
     <br/>
 
+<table class="table table-hover">
+    <thead class="thead-dark">
+
+        <!-- Getting DB column names to table headers-->
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published date</th>
+            <th>ISBN_13</th>
+            <th>Page count</th>
+            <th>Cover URL</th>
+            <th>Publication language</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+
+
     {% for book in searched_books %}
-
-        {{ book.book_title }}
-        <br/>
+    <tr>
+        <td>{{ book.book_title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publ_date }}</td>
+        <td>{{ book.ISBN_number }}</td>
+        <td>{{ book.page_count }}</td>
+        <td><a href="{{ book.cover_URL }}">COVER URL</a></td>
+        <td>{{ book.publ_language }}</td>
+        <td><a href="{% url 'book-edit' book_id=book.id %}" class="warning-link">Edit</a>
+        <a style="color:red" href="{% url 'book-delete' book_id=book.id %}" class="link-danger" >Delete</a></td>
+    </tr>
     {% endfor %}
+</table>
+
+{% elif search_by == "publ_date" %}
+
+    <h1>Results for dates from {{ dates.0 }} to {{ dates.1 }}</h1>
+    <br/>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+
+        <!-- Getting DB column names to table headers-->
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published date</th>
+            <th>ISBN_13</th>
+            <th>Page count</th>
+            <th>Cover URL</th>
+            <th>Publication language</th>
+            <th>Options</th>
+        </tr>
+    </thead>
 
 
+    {% for book in searched_books %}
+    <tr>
+        <td>{{ book.book_title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publ_date }}</td>
+        <td>{{ book.ISBN_number }}</td>
+        <td>{{ book.page_count }}</td>
+        <td><a href="{{ book.cover_URL }}">COVER URL</a></td>
+        <td>{{ book.publ_language }}</td>
+        <td><a href="{% url 'book-edit' book_id=book.id %}" class="warning-link">Edit</a>
+        <a style="color:red" href="{% url 'book-delete' book_id=book.id %}" class="link-danger" >Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
 {% else %}
-    <h1>Nie wpisano slowa kluczowego!</h1>
+    <h1>Keyword note entered</h1>
 {% endif %}
 
 

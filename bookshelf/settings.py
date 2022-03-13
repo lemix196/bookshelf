@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     #ThirdParty
     'rest_framework',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
