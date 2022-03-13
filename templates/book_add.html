@@ -7,7 +7,7 @@
     <p style="center">
         {{ form.as_p }}
     </p>
-        <button class="btn btn-dark" type="submit" value='Save'>Add book</button>
+        <button action="{% url 'book-list' %}" class="btn btn-dark" type="submit" value='Save'>Add book</button>
 </form>
 
 {% endblock content %}

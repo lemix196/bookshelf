@@ -134,3 +134,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Google Books API key
 
 BOOKS_API_KEY = 'AIzaSyCvW12QFmhAKrrVbJxemJVQj6H_gtEIt_U'
+
+# Heroku settings
+import django_on_heroku
+django_on_heroku.settings(locals())
+
+
+if os.environ.get('DEBUG') == 'TRUE':
+    DEBUG = True
+elif os.environ.get('DEBUG') == 'FALSE':
+    DEBUG = False
